@@ -1,0 +1,60 @@
+.first {
+   position: absolute;
+   z-index: 100;
+   left: 50%;
+   top: -50%;
+   background: #427adb;
+   background: -moz-linear-gradient(-45deg, #427adb 0%, #4ddfd9 60%, #4ddfd9 60%);
+   background: -webkit-linear-gradient(-45deg, #427adb 0%, #4ddfd9 60%, #4ddfd9 60%);
+   background: linear-gradient(135deg, #427adb 0%, #4ddfd9 60%, #4ddfd9 60%);
+   filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#427adb', endColorstr='#4ddfd9', GradientType=1);
+   width: 100%;
+   height: 300%;
+   transform: rotate(12grad);
+   box-shadow: 0 7px 9px -4px rgba(0, 0, 0, .2), 0 14px 21px 2px rgba(0, 0, 0, .14), 0 5px 26px 4px rgba(0, 0, 0, .12);
+}
+
+.second {
+   position: absolute;
+   z-index: 80;
+   left: 52%;
+   top: -100%;
+   background: #4aadcf;
+   width: 100%;
+   height: 300%;
+   transform: rotate(-12grad);
+   box-shadow: 0 6px 7px -4px rgba(0, 0, 0, .2), 0 11px 15px 1px rgba(0, 0, 0, .14), 0 4px 20px 3px rgba(0, 0, 0, .12);
+}
+
+.third {
+   position: absolute;
+   z-index: 60;
+   left: 50%;
+   top: -100%;
+   background: #4797ca;
+   width: 100%;
+   height: 300%;
+   transform: rotate(-16grad);
+   box-shadow: 0 6px 7px -4px rgba(0, 0, 0, .2), 0 11px 15px 1px rgba(0, 0, 0, .14), 0 4px 20px 3px rgba(0, 0, 0, .12);
+}
+
+.forth {
+   position: absolute;
+   z-index: 40;
+   left: 0;
+   top: 0;
+   background: #2952c2;
+   width: 100%;
+   height: 200%;
+}
+
+.container {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   left: 0;
+   top: 0;
+   padding: 0;
+   margin: 0;
+   overflow: hidden;
+}

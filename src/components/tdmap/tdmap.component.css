@@ -1,0 +1,56 @@
+#map {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+layer-selection {
+    position: absolute;
+    z-index: 100;
+    right: -6px;
+    bottom: 0px;
+}
+
+zoom-controls {
+    position: absolute;
+    top: calc(50% - 44px);
+    z-index: 100;
+    left: 4px;
+}
+
+measure-controls {
+    position: absolute;
+    left: 8px;
+    bottom: 136px;
+    z-index: 100;
+}
+
+spatial-filter {
+    position: absolute;
+    z-index: 100;
+    left: 8px;
+    bottom: 16px;
+}
+
+geometry-editor {
+    position: absolute;
+    z-index: 90;
+    right: 64px;
+    bottom: 136px;
+}
+
+pkk-info {
+    position: absolute;
+    z-index: 90;
+    bottom: 16px;
+    right: 72px;
+}
+
+map-style {
+    position: absolute;
+    z-index: 90;
+    bottom: 16px;
+    right: 142px;
+}
