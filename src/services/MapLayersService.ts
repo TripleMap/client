@@ -118,7 +118,7 @@ export class MapLayersService {
                     const layerData = this.processSchemaToLayer(layer);
                     this.addSourceToMap(layerData);
                     this.addLayerToMap(layerData);
-                    // this.addSelectionLayer(layerData);
+                    this.addSelectionLayer(layerData);
                 });
                 this.layersSchemas = layers;
                 this.layersChange.next(1);
@@ -130,6 +130,8 @@ export class MapLayersService {
     addSourceToMap(layerData) {
         const map = this.MapService.getMap();
         map.addSource(`${layerData.id}_source`, layerData.source);
+
+
     };
 
 
@@ -173,28 +175,28 @@ export class MapLayersService {
             source: {
                 type: 'geojson',
                 data: `${environment.baseUrl}/${LayersLinks.getAllGeo(schemaLayer.id)}`,
-                buffer: 0,
                 maxzoom: 24,
-                tolerance: 0,
             },
             layerOptions: {
                 'id': `${schemaLayer.id}`,
                 'source': `${schemaLayer.id}_source`,
                 'type': 'fill',
+                'layout': {},
                 'paint': {
-                    'fill-color': "#2952c2",
-                    'fill-opacity': 0.5,
-                    'fill-outline-color': '#2952c2'
+                    'fill-color': '#2952c2',
+                    'fill-opacity': 0.8,
+                    'fill-outline-color': '#fff',
                 }
             },
             selectionLayerOptions: {
                 'id': `${schemaLayer.id}_selected`,
                 'source': `${schemaLayer.id}_source`,
-                'type': 'circle',
+                'type': 'fill',
+                'layout': {},
                 'paint': {
-                    'fill-color': "#2952c2",
+                    'fill-color': '#2952c2',
                     'fill-opacity': 0.8,
-                    'fill-outline-color': '#ffa726'
+
                 }
             }
         }

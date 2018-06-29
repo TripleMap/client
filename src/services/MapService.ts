@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import * as mapboxgl from 'mapbox-gl';
 
 @Injectable()
 export class MapService {
@@ -45,7 +44,7 @@ export class MapService {
         mapboxgl.accessToken = 'default';
         this.map = new mapboxgl.Map({
             container: mapElementId,
-            style: 'http://188.134.5.249:5000/styles/osm-bright/style.json',
+            style: 'http://188.134.5.249:5000/styles/klokantech-basic/style.json',
             zoom: (zoom || 11),
             center: [(lng || 30.30), (lat || 60.0)]
         });
@@ -55,12 +54,7 @@ export class MapService {
         });
 
         var Draw = new MapboxDraw();
-
-        // Map#addControl takes an optional second argument to set the position of the control.
-        // If no position is specified the control defaults to `top-right`. See the docs 
-        // for more details: https://www.mapbox.com/mapbox-gl-js/api/map#addcontrol
-
-        this.map.addControl(Draw, 'top-right');
+                this.map.addControl(Draw, 'top-right');
 
         this.saveMapPosition();
     }

@@ -8,4 +8,5 @@ interface NodeModule {
 interface Window {
 }
 declare var MapboxDraw: any;
+declare var mapboxgl: any;
 //http://peter.grman.at/how-to-write-typescript-definition-files/
