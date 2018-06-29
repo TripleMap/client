@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-
+import * as mapboxgl from 'mapbox-gl';
 @Injectable()
 export class MapService {
     public map: any;
@@ -54,7 +54,7 @@ export class MapService {
         });
 
         var Draw = new MapboxDraw();
-                this.map.addControl(Draw, 'top-right');
+        this.map.addControl(Draw, 'top-right');
 
         this.saveMapPosition();
     }
