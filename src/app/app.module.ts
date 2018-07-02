@@ -48,11 +48,11 @@ import { GridsterModule } from 'angular-gridster2';
 
 
 // services
-import { ApiHTTPInterceptorService } from "../services/ApiHTTPInterceptorService";
-import { MessageService } from '../services/MessageService';
-import { MapService } from "../services/MapService";
-import { MapLayersService } from "../services/MapLayersService";
-
+import { ApiHTTPInterceptorService } from "../services/app-services/ApiHTTPInterceptorService";
+import { MessageService } from '../services/app-services/MessageService';
+import { MapService } from "../services/map-services/MapService";
+import { MapLayersService } from "../services/map-services/MapLayersService";
+import { CadastralLayersService } from "../services/map-services/CadastralLayersService";
 //auth
 import { Login } from '../auth/login/login';
 import { AuthService, AuthHttpInterceptorService } from '../auth/auth-service';
@@ -70,6 +70,14 @@ import { TdmapSistem } from '../components/tdmap-sistem/tdmap-sistem.component';
 import { MainGridPanelComponent } from '../components/main-grid-panel/main-grid-panel.component';
 import { TdmapComponent } from "../components/tdmap/tdmap.component";
 
+
+
+//MapComponents
+import { LayerComponent } from "../components/mapComponents/layer/layer.component";
+import { ZoomComponent } from "../components/mapComponents/zoom/zoom.component";
+import { MeasureComponent } from "../components/mapComponents/measure/measure.component";
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +87,10 @@ import { TdmapComponent } from "../components/tdmap/tdmap.component";
     Register,
     TdmapSistem,
     MainGridPanelComponent,
-    TdmapComponent
+    TdmapComponent,
+    LayerComponent,
+    ZoomComponent,
+    MeasureComponent
   ],
   imports: [
     BrowserModule,
@@ -137,7 +148,8 @@ import { TdmapComponent } from "../components/tdmap/tdmap.component";
     AuthGuard,
     RoleGuard,
     MapService,
-    MapLayersService
+    MapLayersService,
+    CadastralLayersService
   ],
   bootstrap: [AppComponent
   ],

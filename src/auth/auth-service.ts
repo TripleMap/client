@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Router } from '@angular/router';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from "@angular/common/http";
 import { Observable, Subject, Subscription } from "rxjs";
-import { MessageService } from '../services/MessageService';
+import { MessageService } from '../services/app-services/MessageService';
 import 'rxjs/add/operator/debounceTime.js';
 
 export let AUTH_LINKS = {

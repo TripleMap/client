@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from "@angular/common/http";
 import { Observable, Subject, Subscription } from "rxjs";
-import { environment } from "../environments/environment";
+import { environment } from "../../environments/environment";
 import { Router } from "@angular/router";
 import { MessageService } from './MessageService';
 

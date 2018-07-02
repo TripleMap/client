@@ -53,9 +53,6 @@ export class MapService {
             this.mapReady.next(true);
         });
 
-        var Draw = new MapboxDraw();
-        this.map.addControl(Draw, 'top-right');
-
         this.saveMapPosition();
     }
 

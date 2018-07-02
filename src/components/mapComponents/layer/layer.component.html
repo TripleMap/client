@@ -1,0 +1,34 @@
+<div class="layer-selection-component" [ngClass]="{'wrapper-active': isActive}">
+  <button class="layer-selection-button" mat-fab color="primary" [ngClass]="{'button-active': isActive}" (click)="transformMaterial($event)">
+    <mat-icon>layers</mat-icon>
+  </button>
+  <div class="expansion-layers-panel mat-elevation-z5" [ngClass]="isActive ? 'expansion-panel__expansed' : 'expansion-panel__collapsed'">
+    <mat-toolbar color="primary" class="mat-elevation-z2" style="position:absolute;z-index:10;height:48px;min-height:48px;">
+      <mat-toolbar-row style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
+        <span>Управление слоями</span>
+        <button mat-icon-button (click)="transformMaterial($event)" style="margin:0;margin-right: -16px;">
+          <mat-icon aria-label="Close dialog">close</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-accordion style="position:absolute;z-index:5;top:48px;width: 100%;height: calc(100% - 48px);overflow: auto;">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header style="height:48px;">
+          <mat-panel-title> Кадастровые слои </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div style="display: flex;flex-direction: column;">
+          <mat-checkbox style="text-overflow: ellipsis;overflow: hidden;" *ngFor="let item of cadastrOverLayers" (change)="cadastrOverLayerChecked($event, item)"
+            [(ngModel)]="item.visible">{{item.labelName}}</mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel expanded="true" style="height:48px;">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Геометрия </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div style="display: flex;flex-direction: column;">
+          <mat-checkbox *ngFor="let overlayLayer of overlayLayers" (change)="changeOverLayLayer(overlayLayer)" [(ngModel)]="overlayLayer.layer_schema.options.visible">{{overlayLayer.layer_schema.labelName}}</mat-checkbox>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { CompactType, DisplayGrid, GridsterConfig, GridsterItem, GridType, GridsterItemComponent } from 'angular-gridster2';
-import { MapService } from "../../services/MapService";
+import { MapService } from "../../services/map-services/MapService";
 // import { TdMapPanelComponent } from '../td-map-panel/td-map-panel.component';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, AfterViewInit } from "@angular/core";
-import { MapService } from "../../services/MapService";
-import { MapLayersService } from "../../services/MapLayersService";
+import { MapService } from "../../services/map-services/MapService";
+import { MapLayersService } from "../../services/map-services/MapLayersService";
 @Component({
     selector: "td-map",
     templateUrl: "./tdmap.component.html",

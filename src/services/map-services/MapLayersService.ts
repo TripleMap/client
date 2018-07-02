@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject } from "rxjs";
 import { MapService } from './MapService';
-import { AuthService } from '../auth/auth-service';
-import { environment } from '../environments/environment';
+import { AuthService } from '../../auth/auth-service';
+import { environment } from '../../environments/environment';
 export const StyleLinks = {
     getAllData: (layerId) => `api/Layers/GetLayerFeaturesStyles?LayerId=${layerId}`,
     getUserStyles: () => `api/Layers/GetStyles?`,
@@ -105,39 +105,39 @@ export class MapLayersService {
     ) {
         this.MapService.mapReady.subscribe(ready => {
             if (!ready) return;
-            console.log(ready)
             this.constructOverlayers();
         })
 
     };
 
-    constructOverlayers() {
+    private constructOverlayers() {
         this.http.get(LayersLinks.getLayersByUserId(this.AuthService.getUserId()))
             .subscribe((layers: LayerSchema[]) => {
-                layers.map(layer => {
-                    const layerData = this.processSchemaToLayer(layer);
-                    this.addSourceToMap(layerData);
-                    this.addLayerToMap(layerData);
-                    this.addSelectionLayer(layerData);
-                });
                 this.layersSchemas = layers;
+                layers.map(layer => {
+                    if (layer.layer_schema.options.visible) {
+                        const layerData = this.processSchemaToLayer(layer);
+                        this.addSourceToMap(layerData);
+                        this.addLayerToMap(layerData);
+                        this.addSelectionLayer(layerData);
+                    }
+                });
                 this.layersChange.next(1);
                 // this.emitToLabelLeafletLayer();
             });
 
     };
 
-    addSourceToMap(layerData) {
+    public addSourceToMap(layerData) {
         const map = this.MapService.getMap();
         map.addSource(`${layerData.id}_source`, layerData.source);
-
-
     };
 
 
     public addLayerToMap(layerData) {
         const map = this.MapService.getMap();
         map.addLayer(layerData.layerOptions);
+        this.changeLayerVisibility(layerData.id, true);
     };
 
     public addSelectionLayer(layerData) {
@@ -147,29 +147,59 @@ export class MapLayersService {
 
     }
 
-    public removeLayerFromMap(layerId) {
+    public addLayerToMapById(layerId) {
+        const map = this.MapService.getMap();
+        const source = map.getSource(layerId);
+        const mapLayer = map.getLayer(layerId);
+        if (mapLayer) {
+            this.changeLayerVisibility(layerId, true);
+            return;
+        }
+        const layerData = this.processSchemaToLayer(this.getLayerSchemaById(layerId));
+        if (!source && layerData) {
+            this.addSourceToMap(layerData)
+        }
+        if (!mapLayer && layerData) {
+            this.addLayerToMap(layerData);
+            this.addSelectionLayer(layerData);
+        }
+        this.changeLayerVisibility(layerId, true);
+    }
+
+    public removeLayerFromMapById(layerId) {
         const map = this.MapService.getMap();
         const mapLayer = map.getLayer(layerId);
         const layerSchema: LayerSchema = this.getLayerSchemaById(layerId)
         if (mapLayer && layerSchema) {
-            layerSchema.layer_schema.options.visible = false;
-            this.changeLayerVisibility(layerId, false)
+            this.changeLayerVisibility(layerId, false);
         }
     };
 
     private changeLayerVisibility(layerId, visible) {
         const map = this.MapService.getMap();
-        let visibleOptions = visible ? 'visible' : 'none'
-
+        if (!map.getLayer(layerId)) return;
+        let visibleOptions = visible ? 'visible' : 'none';
+        const layerData = this.getLayerSchemaById(layerId);
+        if (!layerData) return;
+        layerData.layer_schema.options.visible = visible;
         map.setLayoutProperty(layerId, 'visibility', visibleOptions);
         this.visibleLayers.next(this.visibleLayers.getValue().filter(item => item === layerId ? false : item));
         if (map.getLayer(`${layerId}_selected`)) {
-            map.setLayoutProperty(`${layerId}_selected`, 'visibility', 'none');
+            map.setLayoutProperty(`${layerId}_selected`, 'visibility', visibleOptions);
         }
     }
 
 
     public processSchemaToLayer(schemaLayer: LayerSchema) {
+        if (!schemaLayer) return;
+        let style;
+        if (schemaLayer
+            && schemaLayer.layer_schema
+            && schemaLayer.layer_schema.options
+            && schemaLayer.layer_schema.options.style
+        ) {
+            style = schemaLayer.layer_schema.options.style;
+        }
         const layerOptions = {
             id: schemaLayer.id,
             source: {
@@ -183,9 +213,9 @@ export class MapLayersService {
                 'type': 'fill',
                 'layout': {},
                 'paint': {
-                    'fill-color': '#2952c2',
-                    'fill-opacity': 0.8,
-                    'fill-outline-color': '#fff',
+                    'fill-color': style.fillColor || '#2952c2',
+                    'fill-opacity': style.fillOpacity || 0.5,
+                    'fill-outline-color': style.color || '#fff',
                 }
             },
             selectionLayerOptions: {
@@ -194,8 +224,9 @@ export class MapLayersService {
                 'type': 'fill',
                 'layout': {},
                 'paint': {
-                    'fill-color': '#2952c2',
-                    'fill-opacity': 0.8,
+                    'fill-color': style.fillColor || '#2952c2',
+                    'fill-opacity': style.fillOpacity || 0.5,
+                    'fill-outline-color': style.color || '#ff9800',
 
                 }
             }
@@ -212,15 +243,9 @@ export class MapLayersService {
     };
 
 
-    public setTempSelectedFeature = (layerId, featureId) => {
-        const layer = this._getLeafletLayerById(layerId);
-        let feature;
-    }
-
-    private _getLeafletLayerById(layerId) {
-        const map = this.MapService.getMap();
-        map.getLayer(layerId);
-    };
+    public getActiveLayersId = () => this.layersSchemas
+        .filter(item => item.layer_schema.options.visible ? true : false)
+        .map(item => item.id);
 
 
 
@@ -242,73 +267,4 @@ export class MapLayersService {
     //         error => { console.log(error) }
     //     )
     // }
-
-    generateLayerOptions() {
-        // {
-        //     id: 'masterDataPremice',
-        //     labelName: 'Объекты ЦРА',
-        //     visible: false,
-        //     fieldId: 'id_cra',
-        //     imageUrl: 'assets/house.png',
-        //     dataApi: "api/masterDataPremice",
-        //     dataUrl: "api/masterDataPremice/GetFeatures",
-        //     featureInfoUrl: "api/masterDataPremice/GetFeatureInfo",
-        //     featuresInfoUrl: "api/masterDataPremice/GetFeaturesInfo",
-        //     schemaInfoUrl: "api/masterDataPremice/GetSchema",
-        //     featuresFilterUrl: 'api/masterDataPremice/GetFeaturesByFilters',
-        //     styled: false,
-        //     labeled: false,
-        //     selectable: true,
-        //     multiSelectable: false,
-        //     selectableOnDrawControl: false,
-        //     selectedFeatures: new SelectionModel(true),
-        //     selectedFeaturesBlokedByDrawService: new SelectionModel(true),
-        //     featuresIdToDisplayOnFilterChange: new BehaviorSubject(null),
-
-        //     source: {
-        //         type: 'geojson',
-        //         data: `${environment.baseUrl}/api/masterDataPremice/GetFeatures`,
-        //         buffer: 0,
-        //         maxzoom: 20
-        //     },
-        //     layerOptions: {
-        //         'id': "masterDataPremice",
-        //         'source': "masterDataPremice",
-        //         'type': 'circle',
-        //         'paint': {
-        //             'circle-color': {
-        //                 'property': 'color',
-        //                 'type': 'identity'
-        //             },
-        //             'circle-radius': {
-        //                 'base': 1.45,
-        //                 'stops': [[12, 3], [22, 100]]
-        //             },
-        //             'circle-opacity': 0.6,
-        //             'circle-blur': 0
-        //         }
-        //     },
-        //     selectionLayerOptions: {
-        //         'id': "masterDataPremice_selected",
-        //         'source': "masterDataPremice",
-        //         'type': 'circle',
-        //         'paint': {
-        //             'circle-color': {
-        //                 'property': 'color',
-        //                 'type': 'identity'
-        //             },
-        //             'circle-radius': {
-        //                 'base': 1.45,
-        //                 'stops': [[12, 3], [22, 100]]
-        //             },
-        //             'circle-opacity': 1,
-        //             'circle-blur': 0,
-        //             'circle-stroke-width': 2,
-        //             'circle-stroke-color': '#ffa726'
-        //         }
-        //     }
-        // }
-    }
 }
-
-
