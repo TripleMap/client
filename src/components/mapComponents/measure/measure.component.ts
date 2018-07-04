@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { MapService } from '../../../services/map-services/MapService';
 import * as turf from '@turf/turf';
-
 import numeral from 'numeral';
 const MAPBOX_DRAW_STYLES = [
   {
@@ -285,6 +284,10 @@ MeasureLineStringMode.toDisplayFeatures = function (state, geojson, display) {
   }
 }
 
+MeasureLineStringMode.onMouseDown = function (state, e) {
+  console.log(state, e)
+}
+
 
 @Component({
   selector: "measure-controls",
@@ -313,26 +316,45 @@ export class MeasureComponent {
       this.measureTools = draw;
       this.createEndedLabelLayer();
       map.on('draw.update', (e) => {
-        console.log('draw.update', e)
         this.updateFeatureFromLabelLayer(e);
       });
-      map.on('move', (e) => {
-        console.log('draw.selectionchange', e)
-        // this.removeFeatureFromLabelLayer(e);
+      map.on('draw.direct_select.drag.start', (e) => {
+        console.log('draw.direct_select.drag.start', e)
+      });
+      map.on('draw.direct_select.drag.stop', (e) => {
+        console.log('draw.direct_select.drag.stop', e)
       });
       map.on('draw.create', (e) => {
-        console.log('draw.create', e)
         this.addFeatureToLabelLayer(e);
       });
 
-      MapboxDraw.modes.direct_select = function (state, e) {
-        MapboxDraw.modes.direct_select.call(MapboxDraw.modes.direct_select, state, e)
-        MapboxDraw.modes.direct_select.map.fire('Constants.events.UPDATE', {
-          action: 'Constants.events.UPDATE',
-          features: MapboxDraw.modes.direct_select.getSelected().map(f => f.toGeoJSON())
-        });
-      }
-      console.log(this.measureTools)
+
+      console.log(draw)
+      // MapboxDraw.modes.direct_select.prototype.startDragging = function (state, e) {
+      //   console.log(this)
+      //   this.map.dragPan.disable();
+      //   state.canDragMove = true;
+      //   state.dragMoveLocation = e.lngLat;
+      //   console.log(e)
+      //   this.map.fire('draw.drag.start', {
+      //     action: 'change_coordinates',
+      //     features: this.getSelected().map(f => f.toGeoJSON())
+      //   });
+      // }.bind(MapboxDraw.modes.direct_select);
+
+
+      // MapboxDraw.modes.direct_select.prototype.stopDragging = function (state) {
+      //   this.map.dragPan.enable();
+      //   state.dragMoving = false;
+      //   state.canDragMove = false;
+      //   state.dragMoveLocation = null;
+      //   console.log(state)
+      //   this.map.fire('draw.drag.stop', {
+      //     action: 'change_coordinates',
+      //     features: this.getSelected().map(f => f.toGeoJSON())
+      //   });
+      // }.bind(MapboxDraw.modes.direct_select);
+
     });
   }
 
