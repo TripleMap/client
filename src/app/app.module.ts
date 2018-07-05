@@ -47,12 +47,19 @@ import { GridsterModule } from 'angular-gridster2';
 
 
 
-// services
+// app-services
 import { ApiHTTPInterceptorService } from "../services/app-services/ApiHTTPInterceptorService";
 import { MessageService } from '../services/app-services/MessageService';
+
+//map-services
 import { MapService } from "../services/map-services/MapService";
+import { DrawService } from "../services/map-services/DrawService";
+import { MeasureService } from "../services/map-services/MeasureService";
+import { SpatialFilterService } from "../services/map-services/SpatialFilterService";
 import { MapLayersService } from "../services/map-services/MapLayersService";
 import { CadastralLayersService } from "../services/map-services/CadastralLayersService";
+
+
 //auth
 import { Login } from '../auth/login/login';
 import { AuthService, AuthHttpInterceptorService } from '../auth/auth-service';
@@ -76,7 +83,7 @@ import { TdmapComponent } from "../components/tdmap/tdmap.component";
 import { LayerComponent } from "../components/mapComponents/layer/layer.component";
 import { ZoomComponent } from "../components/mapComponents/zoom/zoom.component";
 import { MeasureComponent } from "../components/mapComponents/measure/measure.component";
-
+import { SpatialFilterComponent } from "../components/mapComponents/spatial-filter/spatial-filter.component";
 
 @NgModule({
   declarations: [
@@ -90,7 +97,8 @@ import { MeasureComponent } from "../components/mapComponents/measure/measure.co
     TdmapComponent,
     LayerComponent,
     ZoomComponent,
-    MeasureComponent
+    MeasureComponent,
+    SpatialFilterComponent
   ],
   imports: [
     BrowserModule,
@@ -149,7 +157,10 @@ import { MeasureComponent } from "../components/mapComponents/measure/measure.co
     RoleGuard,
     MapService,
     MapLayersService,
-    CadastralLayersService
+    CadastralLayersService,
+    DrawService,
+    MeasureService,
+    SpatialFilterService
   ],
   bootstrap: [AppComponent
   ],

@@ -33,6 +33,7 @@
     "ng2-dnd": "^5.0.2",
     "ngx-color": "^2.0.2",
     "numeral": "^2.0.6",
+    "polylabel": "^1.0.2",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.1",
     "zone.js": "^0.8.26"
