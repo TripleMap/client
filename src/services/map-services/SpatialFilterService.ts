@@ -177,6 +177,7 @@ SpatialFilterRadiusMode.toDisplayFeatures = function (state, geojson, display) {
   const radiusInKm = getDisplayLengthMeasurements(geojson.geometry.coordinates);
   const circleFeature = createGeoJSONCircle(center, radiusInKm, state.line.id);
   circleFeature.properties.meta = 'radius';
+  console.log(circleFeature)
   display(circleFeature);
 
   return null;

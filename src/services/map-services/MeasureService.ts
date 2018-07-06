@@ -450,6 +450,9 @@ export class MeasureService {
     }
   })
   private addFeatureToLabelLayer(e) {
+    if (this.editor.getMode() !== 'measure_line' || this.editor.getMode() !== 'measure_polygon') {
+      return;
+    }
     const map = this.MapService.getMap();
     const feature = e.features[0];
     if (!feature) return;
@@ -469,6 +472,8 @@ export class MeasureService {
   }
 
   private updateFeatureFromLabelLayer(e) {
+    console.log(this.editor.getMode())
+    console.log(e)
     const feature = e.features[0];
     if (!feature) return;
     const map = this.MapService.getMap();
