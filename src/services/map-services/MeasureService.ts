@@ -6,7 +6,7 @@ import { MapService } from './MapService';
 
 export const MEASURE_STYLES = [
   {
-    'id': 'tdmap-draw-polygon-fill-inactive',
+    'id': 'tdmap-draw-measure-polygon-fill-inactive',
     'type': 'fill',
     'filter': ['all',
       ['==', 'active', 'false'],
@@ -19,7 +19,7 @@ export const MEASURE_STYLES = [
       'fill-opacity': 0.1
     }
   }, {
-    'id': 'tdmap-draw-polygon-fill-active',
+    'id': 'tdmap-draw-measure-polygon-fill-active',
     'type': 'fill',
     'filter': ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
     'paint': {
@@ -28,7 +28,7 @@ export const MEASURE_STYLES = [
       'fill-opacity': 0.1
     }
   }, {
-    'id': 'tdmap-draw-polygon-midpoint',
+    'id': 'tdmap-draw-measure-polygon-midpoint',
     'type': 'circle',
     'filter': ['all',
       ['==', '$type', 'Point'],
@@ -38,7 +38,7 @@ export const MEASURE_STYLES = [
       'circle-color': '#008CE5'
     }
   }, {
-    'id': 'tdmap-draw-polygon-stroke-inactive',
+    'id': 'tdmap-draw-measure-polygon-stroke-inactive',
     'type': 'line',
     'filter': ['all',
       ['==', 'active', 'false'],
@@ -55,7 +55,7 @@ export const MEASURE_STYLES = [
     },
 
   }, {
-    'id': 'tdmap-draw-polygon-stroke-active',
+    'id': 'tdmap-draw-measure-polygon-stroke-active',
     'type': 'line',
     'filter': ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
     'layout': {
@@ -68,7 +68,7 @@ export const MEASURE_STYLES = [
       'line-width': 3
     },
   }, {
-    'id': 'tdmap-draw-line-inactive',
+    'id': 'tdmap-draw-measure-line-inactive',
     'type': 'line',
     'filter': ['all',
       ['==', 'active', 'false'],
@@ -85,7 +85,7 @@ export const MEASURE_STYLES = [
     },
 
   }, {
-    'id': 'tdmap-draw-line-active',
+    'id': 'tdmap-draw-measure-line-active',
     'type': 'line',
     'filter': ['all',
       ['==', '$type', 'LineString'],
@@ -102,7 +102,7 @@ export const MEASURE_STYLES = [
     },
 
   }, {
-    'id': 'tdmap-draw-polygon-and-line-vertex-stroke-inactive',
+    'id': 'tdmap-draw-measure-polygon-and-line-vertex-stroke-inactive',
     'type': 'circle',
     'filter': ['all',
       ['==', 'meta', 'vertex'],
@@ -114,7 +114,7 @@ export const MEASURE_STYLES = [
       'circle-color': '#fff'
     }
   }, {
-    'id': 'tdmap-draw-polygon-and-line-vertex-inactive',
+    'id': 'tdmap-draw-measure-polygon-and-line-vertex-inactive',
     'type': 'circle',
     'filter': ['all',
       ['==', 'meta', 'vertex'],
@@ -126,7 +126,7 @@ export const MEASURE_STYLES = [
       'circle-color': '#008CE5'
     }
   }, {
-    'id': 'tdmap-draw-point-point-stroke-inactive',
+    'id': 'tdmap-draw-measure-point-point-stroke-inactive',
     'type': 'circle',
     'filter': ['all',
       ['==', 'active', 'false'],
@@ -140,7 +140,7 @@ export const MEASURE_STYLES = [
       'circle-color': '#fff'
     }
   }, {
-    'id': 'tdmap-draw-point-inactive',
+    'id': 'tdmap-draw-measure-point-inactive',
     'type': 'circle',
     'filter': ['all',
       ['==', 'active', 'false'],
@@ -153,7 +153,7 @@ export const MEASURE_STYLES = [
       'circle-color': '#008CE5'
     }
   }, {
-    'id': 'tdmap-draw-point-stroke-active',
+    'id': 'tdmap-draw-measure-point-stroke-active',
     'type': 'circle',
     'filter': ['all',
       ['==', '$type', 'Point'],
@@ -165,7 +165,7 @@ export const MEASURE_STYLES = [
       'circle-color': '#fff'
     }
   }, {
-    'id': 'tdmap-draw-point-active',
+    'id': 'tdmap-draw-measure-point-active',
     'type': 'circle',
     'filter': ['all',
       ['==', '$type', 'Point'],
@@ -176,7 +176,7 @@ export const MEASURE_STYLES = [
       'circle-color': '#008CE5'
     }
   }, {
-    'id': 'tdmap-draw-polygon-fill-static',
+    'id': 'tdmap-draw-measure-polygon-fill-static',
     'type': 'fill',
     'filter': ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
     'paint': {
@@ -185,7 +185,7 @@ export const MEASURE_STYLES = [
       'fill-opacity': 0.1
     }
   }, {
-    'id': 'tdmap-draw-polygon-stroke-static',
+    'id': 'tdmap-draw-measure-polygon-stroke-static',
     'type': 'line',
     'filter': ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
     'layout': {
@@ -198,7 +198,7 @@ export const MEASURE_STYLES = [
     },
 
   }, {
-    'id': 'tdmap-draw-line-static',
+    'id': 'tdmap-draw-measure-line-static',
     'type': 'line',
     'filter': ['all', ['==', 'mode', 'static'], ['==', '$type', 'LineString']],
     'layout': {
@@ -210,7 +210,7 @@ export const MEASURE_STYLES = [
       'line-width': 3
     },
   }, {
-    'id': 'tdmap-draw-point-static',
+    'id': 'tdmap-draw-measure-point-static',
     'type': 'circle',
     'filter': ['all', ['==', 'mode', 'static'], ['==', '$type', 'Point']],
     'paint': {

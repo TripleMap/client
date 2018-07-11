@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MapService } from './MapService';
 import { MeasureService, MEASURE_STYLES } from './MeasureService';
-import { SpatialFilterService } from './SpatialFilterService'
+import { SpatialFilterService, SPATIAL_FILTER_STYLES } from './SpatialFilterService'
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +29,12 @@ export class DrawService {
 
       const spatialFilterEditor = new MapboxDraw({
         drawClient: 'spatialFilter',
+        styles: SPATIAL_FILTER_STYLES,
         modes: Object.assign(this.SpatialFilterService.modes(), MapboxDraw.modes)
       });
       map.addControl(spatialFilterEditor, 'top-left');
       this.spatialFilterEditor = spatialFilterEditor;
+      this.SpatialFilterService.initialyze(spatialFilterEditor);
     });
   }
 
