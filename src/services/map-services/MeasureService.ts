@@ -449,31 +449,31 @@ export class MeasureService {
       coordinates: centerOfMass(feature.geometry.coordinates)
     }
   })
-  private addFeatureToLabelLayer(e) {
-    if (this.editor.getMode() !== 'measure_line' || this.editor.getMode() !== 'measure_polygon') {
-      return;
-    }
-    const map = this.MapService.getMap();
-    const feature = e.features[0];
-    if (!feature) return;
-    let point;
-    if (feature.geometry.type === 'LineString') {
-      point = this.createLabelPointFromLineString(feature);
-    } else if (feature.geometry.type === 'Polygon') {
-      point = this.createLabelPointFromPolygon(feature);
-    }
 
-    let isAdded = this.labelGeoJSONHolder.features.map(feature => feature.properties.id).indexOf(point.properties.id) !== -1;
-    if (isAdded) {
-      this.labelGeoJSONHolder.features = this.labelGeoJSONHolder.features.filter(feature => feature.properties.id === point.properties.id ? false : feature);
+  private addFeatureToLabelLayer(e) {
+    if (this.editor.getMode() === 'measure_line' || this.editor.getMode() === 'measure_polygon') {
+      const map = this.MapService.getMap();
+      const feature = e.features[0];
+
+      if (!feature) return;
+      let point;
+      if (feature.geometry.type === 'LineString') {
+        point = this.createLabelPointFromLineString(feature);
+      } else if (feature.geometry.type === 'Polygon') {
+        point = this.createLabelPointFromPolygon(feature);
+      }
+
+      let isAdded = this.labelGeoJSONHolder.features.map(feature => feature.properties.id).indexOf(point.properties.id) !== -1;
+      if (isAdded) {
+        this.labelGeoJSONHolder.features = this.labelGeoJSONHolder.features.filter(feature => feature.properties.id === point.properties.id ? false : feature);
+      }
+      this.labelGeoJSONHolder.features.push(point);
+      map.getSource(`measure-label-features`).setData(this.labelGeoJSONHolder);
     }
-    this.labelGeoJSONHolder.features.push(point);
-    map.getSource(`measure-label-features`).setData(this.labelGeoJSONHolder);
   }
 
   private updateFeatureFromLabelLayer(e) {
-    console.log(this.editor.getMode())
-    console.log(e)
+    if (e.drawClient !== "measure") return;
     const feature = e.features[0];
     if (!feature) return;
     const map = this.MapService.getMap();

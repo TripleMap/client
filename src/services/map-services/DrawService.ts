@@ -7,7 +7,8 @@ import { SpatialFilterService } from './SpatialFilterService'
   providedIn: 'root'
 })
 export class DrawService {
-  public editor: any;
+  public measureEditor: any;
+  public spatialFilterEditor: any;
   constructor(
     public MapService: MapService,
     public MeasureService: MeasureService,
@@ -16,37 +17,36 @@ export class DrawService {
     this.MapService.mapReady.subscribe(ready => {
       if (!ready) return;
       const map = this.MapService.getMap();
-      const draw = new MapboxDraw({
-        styles: this.collectStyles(),
-        modes: this.collectModes(),
+      const measureEditor = new MapboxDraw({
+        drawClient: 'measure',
+        styles: MEASURE_STYLES,
+        modes: Object.assign(this.MeasureService.modes(), MapboxDraw.modes),
       });
 
-      map.addControl(draw, 'top-left');
-      this.editor = draw;
-      this.MeasureService.initialyze(draw);
+      map.addControl(measureEditor, 'top-left');
+      this.measureEditor = measureEditor;
+      this.MeasureService.initialyze(measureEditor);
+
+      const spatialFilterEditor = new MapboxDraw({
+        drawClient: 'spatialFilter',
+        modes: Object.assign(this.SpatialFilterService.modes(), MapboxDraw.modes)
+      });
+      map.addControl(spatialFilterEditor, 'top-left');
+      this.spatialFilterEditor = spatialFilterEditor;
     });
   }
 
-  private collectModes() {
-    let measure = Object.assign(this.MeasureService.modes(), MapboxDraw.modes);
-    let spatial = Object.assign(this.SpatialFilterService.modes(), measure);
-    return spatial;
-  }
-
-  private collectStyles() {
-    return [...MEASURE_STYLES]
-  }
 
   public startPolylineMeasure() {
-    this.editor = this.editor.changeMode('measure_line');
+    this.measureEditor = this.measureEditor.changeMode('measure_line');
   }
 
   public startPolygonMeasure() {
-    this.editor = this.editor.changeMode('measure_polygon');
+    this.measureEditor = this.measureEditor.changeMode('measure_polygon');
   }
 
   public stopMeasure() {
-    if (this.editor) {
+    if (this.measureEditor) {
       this.MeasureService.removeLayers();
       this.MeasureService.stopMeasure();
     }
@@ -55,7 +55,7 @@ export class DrawService {
 
 
   public startCircleSpatialFilter() {
-    this.editor = this.editor.changeMode('spatial_filter_radius_mode');
+    this.spatialFilterEditor = this.spatialFilterEditor.changeMode('spatial_filter_radius_mode');
   }
 
   public startPolygonSpatialFilter() {
